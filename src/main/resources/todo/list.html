@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ToDo一覧</title>
+</head>
+<body>
+    <h2>ToDo一覧</h2>
+    <!-- Flashメッセージの表示 -->
+    <p th:if="${errorMessage}" 
+        th:text="${errorMessage}" style="color: red;">
+        エラーメッセージ
+    </p>
+    <table border="1" width="300">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ToDo</th>
+                <th>詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="todo : ${todos}">
+                <td th:text="${todo.id}"></td>
+                <td th:text="${todo.todo}"></td>
+                <td>
+                    <a th:href="@{/todos/{id}(id=${todo.id})}">
+                        詳細
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

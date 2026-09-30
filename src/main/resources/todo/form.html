@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ToDoフォーム</title>
+</head>
+<body>
+    <!-- タイトル：登録 or 編集 -->
+    <h2 th:if="${toDoForm.isNew}">新規ToDo登録</h2>
+    <h2 th:unless="${toDoForm.isNew}">ToDo編集</h2>
+    <!-- アクション：登録 or 編集 -->
+    <form th:action="${toDoForm.isNew} ? @{/todos/save} : @{/todos/update}"
+        th:object="${toDoForm}" method="post">
+        <!-- idは更新時に必要のため、hiddenで持つ -->
+        <input type="hidden" th:field="*{id}">
+        <!-- ▽▽▽▽▽ 14.4 ▽▽▽▽▽ -->
+	    <table>
+	        <tr>
+	            <th>ToDo</th>
+	            <td>
+	                <input type="text" th:field="*{todo}">
+	                <!-- todo用：バリデーションエラー表示 -->
+	                <span th:if="${#fields.hasErrors('todo')}" 
+	                    th:errors="*{todo}" style="color: red;">
+	                    エラーがあれば表示
+	                </span>
+	            </td>
+	        </tr>
+	        <tr>
+	            <th>詳細</th>
+	            <td>
+	                <textarea rows="5" cols="30" th:field="*{detail}">
+	                </textarea>
+	                <!-- 詳細用：バリデーションエラー表示 -->
+	                <span th:if="${#fields.hasErrors('detail')}" 
+	                    th:errors="*{detail}" style="color: red;">
+	                    エラーがあれば表示
+	                </span>
+	            </td>
+	        </tr>
+	    </table>
+        <!-- △△△△△ 14.4 △△△△△ -->
+        <!-- ボタン：登録 or 編集 -->
+        <input th:if="${toDoForm.isNew}" type="submit" value="登録">
+        <input th:unless="${toDoForm.isNew}" type="submit" value="更新">
+    </form>
+    <a th:href="@{/todos}">戻る</a>
+</body>
+</html>
